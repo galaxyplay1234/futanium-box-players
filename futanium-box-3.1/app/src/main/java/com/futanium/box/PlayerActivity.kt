@@ -57,23 +57,7 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
     
-        private var m3u8RefId: String? = null
-private var isM3u8Active = false
-
-private fun setM3u8Status(active: Boolean) {
-    if (active) {
-        m3u8RefId = UUID.randomUUID().toString()
-        m3u8Ref.child(m3u8RefId!!).setValue(true)
-        m3u8Ref.child(m3u8RefId!!).onDisconnect().removeValue()
-        isM3u8Active = true
-    } else {
-        m3u8RefId?.let {
-            m3u8Ref.child(it).removeValue()
-            m3u8RefId = null
-            isM3u8Active = false
-        }
-    }
-}
+        
 
 
     private val controllerHandler = Handler(Looper.getMainLooper())
@@ -86,7 +70,7 @@ private fun setM3u8Status(active: Boolean) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-				setM3u8Status(true)
+				
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.statusBarColor = Color.BLACK
@@ -313,15 +297,7 @@ private fun setM3u8Status(active: Boolean) {
         super.onDestroy()
     }
 
-        override fun onPause() {
-        super.onPause()
-        setM3u8Status(false)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (!isM3u8Active) setM3u8Status(true)
-    }
+        
 
     private fun dp(v: Int): Int = (v * resources.displayMetrics.density).toInt()
 }
