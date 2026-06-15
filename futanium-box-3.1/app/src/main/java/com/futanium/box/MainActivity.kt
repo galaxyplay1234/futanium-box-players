@@ -179,8 +179,7 @@ private val liveRunnable = object : Runnable {
 
         vb.rvGames.layoutManager = LinearLayoutManager(this)
         vb.rvGames.adapter = adapter
-        vb.rvGames.layoutManager = LinearLayoutManager(this)
-vb.rvGames.adapter = adapter
+        
 
 // 🔧 Evita que o RecyclerView feche ou anime cards ao atualizar
 vb.rvGames.setHasFixedSize(false)
@@ -399,9 +398,7 @@ override fun onResume() {
 
     liveHandler.removeCallbacks(liveRunnable)
 
-    if (isOnline()) {
-    refreshGamesSilent()
-}
+    
 
     navigatingInsideApp = false
 
