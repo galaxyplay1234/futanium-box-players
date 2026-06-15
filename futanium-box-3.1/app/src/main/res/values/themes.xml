@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Futanium" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- sua identidade visual -->
+        <item name="colorPrimary">@color/menuColor</item>
+        <item name="colorPrimaryContainer">@color/menuColor</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- evita flash branco/roxo -->
+        <item name="android:windowBackground">@color/startup_bg</item>
+        <item name="android:navigationBarColor">@color/startup_bg</item>
+
+        <!-- NÃO use textButtonStyle aqui -->
+        <!-- <item name="textButtonStyle">…</item>  REMOVER -->
+    </style>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Cor principal da identidade visual -->
+    <color name="menuColor">#10131C</color>
+    <color name="startup_bg">#10131C</color>
+
+    <!-- Texto / ícones -->
+    <color name="white">#FFFFFF</color>
+</resources>
