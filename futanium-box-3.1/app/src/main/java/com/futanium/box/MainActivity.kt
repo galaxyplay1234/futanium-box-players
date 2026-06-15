@@ -30,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.FileProvider
 import androidx.core.view.MenuItemCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.futaniumbox.players.databinding.ActivityMainBinding
@@ -130,6 +131,11 @@ private val liveRunnable = object : Runnable {
 
         vb.rvChannels.layoutManager = LinearLayoutManager(this)
 vb.rvChannels.adapter = adapter
+
+
+vb.etSearch.addTextChangedListener { text ->
+    adapter.filter(text?.toString() ?: "")
+}
         
 
 // 🔧 Evita que o RecyclerView feche ou anime cards ao atualizar
@@ -264,10 +270,19 @@ vb.rvChannels.clipToPadding = false
 
 
         vb.swipe.setOnRefreshListener {
-            if (!vb.swipe.isRefreshing) vb.swipe.isRefreshing = true
-            startRefreshSpin()
-            fetchGames(onFinally = { stopRefreshSpin() })
-        }
+
+    vb.etSearch.setText("")
+    adapter.filter("")
+
+    if (!vb.swipe.isRefreshing)
+        vb.swipe.isRefreshing = true
+
+    startRefreshSpin()
+
+    fetchGames(onFinally = {
+        stopRefreshSpin()
+    })
+}
 
         if (isOnline()) {
             fetchGames()
@@ -354,11 +369,21 @@ override fun onResume() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_refresh -> {
-                startRefreshSpin()
-                if (!vb.swipe.isRefreshing) vb.swipe.isRefreshing = true
-                fetchGames(onFinally = { stopRefreshSpin() })
-                true
-            }
+
+    vb.etSearch.setText("")
+    adapter.filter("")
+
+    startRefreshSpin()
+
+    if (!vb.swipe.isRefreshing)
+        vb.swipe.isRefreshing = true
+
+    fetchGames(onFinally = {
+        stopRefreshSpin()
+    })
+
+    true
+}
             else -> super.onOptionsItemSelected(item)
         }
     }
