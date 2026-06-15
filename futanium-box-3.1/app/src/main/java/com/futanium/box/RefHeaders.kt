@@ -1,4 +1,4 @@
-package com.futanium.box
+package com.futaniumbox.players
 
 import android.net.Uri
 import okhttp3.OkHttpClient
