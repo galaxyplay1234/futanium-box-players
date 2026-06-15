@@ -15,14 +15,7 @@ android {
         versionName = "1.0"
     }
 
-    signingConfigs {
-    create("release") {
-        storeFile = file("${rootDir}/futanium-release.keystore")
-        storePassword = System.getenv("KEYSTORE_PASSWORD")
-        keyAlias = System.getenv("KEY_ALIAS")
-        keyPassword = System.getenv("KEY_PASSWORD")
-    }
-}
+    
 
     buildTypes {
         getByName("release") {
