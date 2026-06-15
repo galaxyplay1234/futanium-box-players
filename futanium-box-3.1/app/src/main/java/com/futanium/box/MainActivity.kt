@@ -419,10 +419,12 @@ vb.rvChannels.scrollToPosition(0)
 
     adapter.submit(channels)
 
+    vb.tvCount.text = "${channels.size} canais"
+
     if (vb.etSearch.text?.isNotEmpty() == true) {
-    vb.etSearch.setText("")
-    vb.etSearch.clearFocus()
-}
+        vb.etSearch.setText("")
+        vb.etSearch.clearFocus()
+    }
 
     vb.rvChannels.scrollToPosition(0)
 }
