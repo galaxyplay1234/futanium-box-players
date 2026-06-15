@@ -249,19 +249,7 @@ vb.rvChannels.itemAnimator = null
         }
         // ===========================================================
 
-        adapter.onOpenLink = { url, title, referer, ua ->
-            if (!isOnline()) {
-                showOfflineDialog {
-                    if (isOnline()) {
-                        LinkHelper.openLinkSmart(this, url, title, referer, ua)
-                    } else {
-                        showOfflineDialog { }
-                    }
-                }
-            } else {
-                LinkHelper.openLinkSmart(this, url, title, referer, ua)
-            }
-        }
+        
 
 				// 🔹 Espaço extra no final da lista (sem afetar os cards)
 val bottomSpace = (40 * resources.displayMetrics.density).toInt()
