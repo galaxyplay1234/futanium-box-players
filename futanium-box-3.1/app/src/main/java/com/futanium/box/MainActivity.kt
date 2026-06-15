@@ -79,14 +79,9 @@ class MainActivity : AppCompatActivity() {
     private var pendingApkUri: Uri? = null
     private var downloadingDialog: AlertDialog? = null
 
-		private val liveHandler = android.os.Handler(android.os.Looper.getMainLooper())
+		
 
-private val liveRunnable = object : Runnable {
-    override fun run() {
-        refreshGamesSilent()
-        liveHandler.postDelayed(this, 30000)
-    }
-}
+
 
     private val unknownSourcesLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -309,30 +304,19 @@ vb.rvChannels.scrollToPosition(0)
     
 
 
-liveHandler.postDelayed(liveRunnable, 30000)
+
 
 
     } // onCreate
 
    override fun onPause() {
     super.onPause()
-
-
-    liveHandler.removeCallbacks(liveRunnable)
+    
 }
 
 override fun onResume() {
     super.onResume()
-
-    
-
-    liveHandler.removeCallbacks(liveRunnable)
-
-    
-
     navigatingInsideApp = false
-
-    liveHandler.postDelayed(liveRunnable, 30000)
 }
    
 
@@ -441,33 +425,7 @@ override fun onResume() {
 }
 
    
-private fun refreshGamesSilent() {
 
-    Thread {
-        try {
-            val req = Request.Builder().url(API_URL).build()
-            val res = client.newCall(req).execute()
-            val body = res.body?.string() ?: "[]"
-
-            val channels = parseChannels(body)
-
-            runOnUiThread {
-
-    adapter.submit(channels)
-
-    if (vb.etSearch.text?.isNotEmpty() == true) {
-        vb.etSearch.setText("")
-    }
-
-    vb.rvChannels.scrollToPosition(0)
-}
-
-        } catch (_: Exception) {
-            // silêncio
-        }
-    }.start()
-
-}
 
 
 private fun parseChannels(json: String): List<Channel> {
