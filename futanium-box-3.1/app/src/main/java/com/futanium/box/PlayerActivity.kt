@@ -1,4 +1,4 @@
-package com.futanium.box
+package com.futaniumbox.players
 
 import android.content.Intent
 import android.graphics.Color
@@ -21,8 +21,7 @@ import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.ui.PlayerView
-import com.google.firebase.database.FirebaseDatabase
-import java.util.UUID
+
 
 class PlayerActivity : AppCompatActivity() {
 
@@ -61,9 +60,7 @@ class PlayerActivity : AppCompatActivity() {
         private var m3u8RefId: String? = null
     private var isM3u8Active = false
 
-    private fun setM3u8Status(active: Boolean) {
-        val db = FirebaseDatabase.getInstance("https://futanium-web-default-rtdb.firebaseio.com/")
-        val m3u8Ref = db.getReference("m3u8")
+    
 
         if (active) {
             m3u8RefId = UUID.randomUUID().toString()
