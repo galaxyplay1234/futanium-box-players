@@ -34,7 +34,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.futanium.box.databinding.ActivityMainBinding
 import com.futanium.box.model.Game
-import com.futanium.box.ui.GameAdapter
+import com.futanium.box.ui.ChannelAdapter
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
@@ -64,14 +64,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var vb: ActivityMainBinding
     private val client = OkHttpClient()
-    private val adapter = GameAdapter()
+    private val adapter = ChannelAdapter()
     private var onlineRefId: String? = null
 		private var isOnlineActive = false
 
-    private val API_URL = "https://futaniumwebapp.vercel.app/api/games"
-		private val LIVE_API_URL =
-"https://futanium-live.galaxyplay1234.workers.dev/"
-
+    private val API_URL =
+    "https://futaniumwebapp.vercel.app/api/buttons"
 
     private var refreshItem: MenuItem? = null
     private var refreshView: AppCompatImageView? = null
