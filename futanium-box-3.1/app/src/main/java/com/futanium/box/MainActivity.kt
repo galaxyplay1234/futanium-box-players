@@ -126,22 +126,7 @@ private val liveRunnable = object : Runnable {
             }
         }
 
-        val df = java.text.SimpleDateFormat("dd/MM", java.util.Locale.getDefault())
-        vb.todayChipText.text = "Jogos de Hoje - ${df.format(java.util.Date())}"
-
-        vb.todayRail.bringToFront()
-        vb.root.post {
-            val topSpace = vb.todayRail.bottom + dp(4)
-            vb.rvChannels.setPadding(
-                vb.rvChannels.paddingLeft,
-                topSpace,
-                vb.rvChannels.paddingRight,
-                vb.rvChannels.paddingBottom
-            )
-            val start = vb.todayRail.bottom + dp(6)
-            val end   = start + dp(44)
-            vb.swipe.setProgressViewOffset(true, start, end)
-        }
+        
 
         vb.rvChannels.layoutManager = LinearLayoutManager(this)
 vb.rvChannels.adapter = adapter
@@ -326,7 +311,6 @@ liveHandler.postDelayed(liveRunnable, 30000)
    override fun onPause() {
     super.onPause()
 
-    setOnlineStatus(false)
 
     liveHandler.removeCallbacks(liveRunnable)
 }
