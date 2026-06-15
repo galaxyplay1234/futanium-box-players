@@ -10,7 +10,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.futanium.box.databinding.ActivityAdWebviewBinding
+import com.futaniumbox.players.databinding.ActivityAdWebviewBinding
 
 class AdWebViewActivity : AppCompatActivity() {
 
