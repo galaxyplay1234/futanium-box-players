@@ -5,15 +5,15 @@ plugins {
 }
 
 android {
-    namespace = "com.futanium.box"
+    namespace = "com.futaniumbox.players"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.futanium.box"
+        applicationId = "com.futaniumbox.players"
         minSdk = 24
         targetSdk = 34
-        versionCode = 7
-        versionName = "3.4.3"
+        versionCode = 1
+        versionName = "1.0"
     }
 
     signingConfigs {
