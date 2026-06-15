@@ -67,29 +67,13 @@ class WebViewActivity : AppCompatActivity() {
     }
 
 
-        private var webviewRefId: String? = null
-private var isWebviewActive = false
-
-private fun setWebviewStatus(active: Boolean) {
-    if (active) {
-        webviewRefId = UUID.randomUUID().toString()
-        webviewRef.child(webviewRefId!!).setValue(true)
-        webviewRef.child(webviewRefId!!).onDisconnect().removeValue()
-        isWebviewActive = true
-    } else {
-        webviewRefId?.let {
-            webviewRef.child(it).removeValue()
-            webviewRefId = null
-            isWebviewActive = false
-        }
-    }
-}
+        
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-				setWebviewStatus(true)
+				
 
         WindowCompat.setDecorFitsSystemWindows(window, true)
         window.statusBarColor = Color.BLACK
@@ -472,41 +456,33 @@ if (isMediaUrl(url)) return null
         super.onDestroy()
     }
     
-		    override fun onPause() {
-        super.onPause()
-        setWebviewStatus(false)
-    }
+		    
 
     override fun onResume() {
     super.onResume()
 
-    if (!isWebviewActive) {
-        setWebviewStatus(true)
-    }
-
     if (returningFromSettings) {
 
-    returningFromSettings = false
+        returningFromSettings = false
 
-    operatorDialogOpen = false
+        operatorDialogOpen = false
 
-    operatorDialog?.dismiss()
+        operatorDialog?.dismiss()
 
-    operatorDialog = null
+        operatorDialog = null
 
-    blackShield.visibility = View.GONE
+        blackShield.visibility = View.GONE
 
-    if (!lastMainUrl.isNullOrBlank()) {
+        if (!lastMainUrl.isNullOrBlank()) {
 
-        web.loadUrl(lastMainUrl!!)
+            web.loadUrl(lastMainUrl!!)
 
-    } else {
+        } else {
 
-        web.reload()
+            web.reload()
 
+        }
     }
-
-}
 }
 
 
