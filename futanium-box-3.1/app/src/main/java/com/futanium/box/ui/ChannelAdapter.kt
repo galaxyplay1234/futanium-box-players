@@ -1,16 +1,16 @@
-package com.futanium.box.ui
+package com.futaniumbox.players.ui
 
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.futanium.box.MainActivity
-import com.futanium.box.PlayerActivity
-import com.futanium.box.R
-import com.futanium.box.WebViewActivity
-import com.futanium.box.databinding.ItemChannelBinding
-import com.futanium.box.model.Channel
+import com.futaniumbox.players.MainActivity
+import com.futaniumbox.players.PlayerActivity
+import com.futaniumbox.players.R
+import com.futaniumbox.players.WebViewActivity
+import com.futaniumbox.players.databinding.ItemChannelBinding
+import com.futaniumbox.players.model.Channel
 
 class ChannelAdapter(
     private val items: MutableList<Channel> = mutableListOf()
