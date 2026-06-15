@@ -1,4 +1,4 @@
-package com.futanium.box.model
+package com.futaniumbox.players.model
 
 import com.google.gson.annotations.SerializedName
 
