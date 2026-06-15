@@ -152,5 +152,30 @@ fun filter(query: String) {
                 it.context.startActivity(intent)
             }
         }
+
+			holder.itemView.setOnLongClickListener {
+
+    val clipboard = it.context.getSystemService(
+        android.content.Context.CLIPBOARD_SERVICE
+    ) as android.content.ClipboardManager
+
+    val clip = android.content.ClipData.newPlainText(
+        "Link",
+        channel.link ?: ""
+    )
+
+    clipboard.setPrimaryClip(clip)
+
+    android.widget.Toast.makeText(
+        it.context,
+        "Link copiado!",
+        android.widget.Toast.LENGTH_SHORT
+    ).show()
+
+    true
+}
+
+
+
     }
 }
