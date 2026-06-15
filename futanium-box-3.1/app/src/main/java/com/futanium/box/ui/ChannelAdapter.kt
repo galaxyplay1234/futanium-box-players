@@ -14,7 +14,7 @@ import com.futaniumbox.players.model.Channel
 
 class ChannelAdapter : RecyclerView.Adapter<ChannelAdapter.VH>() {
 
-    private val items = mutableListOf<Channel>()
+    private val items = mutableListOf<Channel>(),
     private val allItems = mutableListOf<Channel>()
 ) : RecyclerView.Adapter<ChannelAdapter.VH>() {
 
