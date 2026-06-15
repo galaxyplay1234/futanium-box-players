@@ -68,23 +68,22 @@ class WebViewActivity : AppCompatActivity() {
 
 
         private var webviewRefId: String? = null
-    private var isWebviewActive = false
+private var isWebviewActive = false
 
-    
-
-        if (active) {
-            webviewRefId = UUID.randomUUID().toString()
-            webviewRef.child(webviewRefId!!).setValue(true)
-            webviewRef.child(webviewRefId!!).onDisconnect().removeValue()
-            isWebviewActive = true
-        } else {
-            webviewRefId?.let {
-                webviewRef.child(it).removeValue()
-                webviewRefId = null
-                isWebviewActive = false
-            }
+private fun setWebviewStatus(active: Boolean) {
+    if (active) {
+        webviewRefId = UUID.randomUUID().toString()
+        webviewRef.child(webviewRefId!!).setValue(true)
+        webviewRef.child(webviewRefId!!).onDisconnect().removeValue()
+        isWebviewActive = true
+    } else {
+        webviewRefId?.let {
+            webviewRef.child(it).removeValue()
+            webviewRefId = null
+            isWebviewActive = false
         }
     }
+}
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
