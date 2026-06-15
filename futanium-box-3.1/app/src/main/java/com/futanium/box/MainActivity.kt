@@ -272,7 +272,8 @@ vb.rvChannels.clipToPadding = false
         vb.swipe.setOnRefreshListener {
 
     vb.etSearch.setText("")
-    adapter.filter("")
+adapter.filter("")
+vb.rvChannels.scrollToPosition(0)
 
     if (!vb.swipe.isRefreshing)
         vb.swipe.isRefreshing = true
@@ -285,20 +286,22 @@ vb.rvChannels.clipToPadding = false
 }
 
         if (isOnline()) {
-            fetchGames()
-            checkAppUpdateExternal(
-                metaUrl = "https://raw.githubusercontent.com/galaxyplay1234/futanium-box-3.1/refs/heads/main/update.json",
-                showNoUpdateToast = false
-            )
-        } else {
+    fetchGames()
+
+    // checkAppUpdateExternal(
+    //     metaUrl = "https://raw.githubusercontent.com/galaxyplay1234/futanium-box-3.1/refs/heads/main/update.json",
+    //     showNoUpdateToast = false
+    // )
+} else {
             showOfflineDialog {
-                vb.swipe.isRefreshing = true
-                fetchGames()
-                checkAppUpdateExternal(
-                    metaUrl = "https://raw.githubusercontent.com/galaxyplay1234/futanium-box-3.1/refs/heads/main/update.json",
-                    showNoUpdateToast = false
-                )
-            }
+    vb.swipe.isRefreshing = true
+    fetchGames()
+
+    // checkAppUpdateExternal(
+    //     metaUrl = "https://raw.githubusercontent.com/galaxyplay1234/futanium-box-3.1/refs/heads/main/update.json",
+    //     showNoUpdateToast = false
+    // )
+}
         }
 
 			
@@ -372,6 +375,7 @@ override fun onResume() {
 
     vb.etSearch.setText("")
     adapter.filter("")
+    vb.rvChannels.scrollToPosition(0)
 
     startRefreshSpin()
 
@@ -415,8 +419,15 @@ override fun onResume() {
         val channels = parseChannels(body)
 
         runOnUiThread {
-            adapter.submit(channels)
-        }
+
+    adapter.submit(channels)
+
+    if (vb.etSearch.text?.isNotEmpty() == true) {
+        vb.etSearch.setText("")
+    }
+
+    vb.rvChannels.scrollToPosition(0)
+}
 
     } catch (_: Exception) {
         // silêncio para não expor a API
@@ -441,8 +452,15 @@ private fun refreshGamesSilent() {
             val channels = parseChannels(body)
 
             runOnUiThread {
-                adapter.submit(channels)
-            }
+
+    adapter.submit(channels)
+
+    if (vb.etSearch.text?.isNotEmpty() == true) {
+        vb.etSearch.setText("")
+    }
+
+    vb.rvChannels.scrollToPosition(0)
+}
 
         } catch (_: Exception) {
             // silêncio
