@@ -47,13 +47,9 @@ import android.widget.ProgressBar
 import android.widget.LinearLayout
 import kotlin.math.max
 import kotlin.math.min
-import com.google.firebase.database.FirebaseDatabase
-import java.util.UUID
 
 
-// 🔔 IMPORTES ADICIONADOS PARA NOTIFICAÇÃO
-import android.Manifest
-import com.google.firebase.messaging.FirebaseMessaging
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -65,8 +61,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var vb: ActivityMainBinding
     private val client = OkHttpClient()
     private val adapter = ChannelAdapter()
-    private var onlineRefId: String? = null
-		private var isOnlineActive = false
+		
 
     private val API_URL =
     "https://futaniumwebapp.vercel.app/api/buttons"
@@ -101,49 +96,20 @@ private val liveRunnable = object : Runnable {
         }
     }
 
-    // 🔔 LAUNCHER DA PERMISSÃO DE NOTIFICAÇÃO (Android 13+)
-    private val requestNotif =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { /* ignore */ }
+    
 
-    // 🔔 FUNÇÃO QUE GARANTE A PERMISSÃO (só Tiramisu+)
-    private fun ensureNotifPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
-                != PackageManager.PERMISSION_GRANTED) {
-                requestNotif.launch(Manifest.permission.POST_NOTIFICATIONS)
-            }
-        }
-    }
+    
 
-    private fun setOnlineStatus(active: Boolean) {
-    val db = FirebaseDatabase.getInstance("https://futanium-web-default-rtdb.firebaseio.com/")
-    val onlineRef = db.getReference("online")
+    
 
-    if (active) {
-        // Gera ID aleatório anônimo
-        onlineRefId = UUID.randomUUID().toString()
-        onlineRef.child(onlineRefId!!).setValue(true)
-        onlineRef.child(onlineRefId!!).onDisconnect().removeValue()
-        isOnlineActive = true
-    } else {
-        // Remove quando o app vai para segundo plano
-        onlineRefId?.let {
-            onlineRef.child(it).removeValue()
-            onlineRefId = null
-            isOnlineActive = false
-        }
-    }
-}
+    
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vb = ActivityMainBinding.inflate(layoutInflater)
         setContentView(vb.root)
 
-        // 🔔 PEDIR PERMISSÃO E ASSINAR TÓPICO GLOBAL
-        ensureNotifPermission()
-        FirebaseMessaging.getInstance().subscribeToTopic("global")
-            .addOnCompleteListener { android.util.Log.d("FCM", "Inscrito no tópico global") }
+        
 
         setSupportActionBar(vb.toolbar)
         window.statusBarColor = Color.parseColor("#10131C")
@@ -347,34 +313,10 @@ vb.rvGames.clipToPadding = false
             }
         }
 
-			setOnlineStatus(true)
+			
 
-    // 🔹 Firebase Database
-val db = FirebaseDatabase.getInstance("https://futanium-web-default-rtdb.firebaseio.com/")
-val installsRef = db.getReference("instalados")
+    
 
-// 🔹 ID único e anônimo do aparelho
-val androidId = Settings.Secure.getString(
-    contentResolver,
-    Settings.Secure.ANDROID_ID
-)
-
-// 🔹 Dados do aparelho e versão
-val versionName = try {
-    packageManager.getPackageInfo(packageName, 0).versionName ?: "desconhecida"
-} catch (e: Exception) {
-    "desconhecida"
-}
-
-val userData = hashMapOf<String, Any>(
-    "version" to versionName,
-    "model" to Build.MODEL,
-    "android" to Build.VERSION.RELEASE,
-    "last_open" to com.google.firebase.database.ServerValue.TIMESTAMP
-)
-
-// 🔹 Atualiza registro
-installsRef.child(androidId).setValue(userData)
 
 liveHandler.postDelayed(liveRunnable, 30000)
 
@@ -392,9 +334,7 @@ liveHandler.postDelayed(liveRunnable, 30000)
 override fun onResume() {
     super.onResume()
 
-    if (!isOnlineActive) {
-        setOnlineStatus(true)
-    }
+    
 
     liveHandler.removeCallbacks(liveRunnable)
 
