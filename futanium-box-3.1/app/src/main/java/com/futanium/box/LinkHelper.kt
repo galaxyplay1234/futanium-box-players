@@ -1,4 +1,4 @@
-package com.futanium.box
+package com.futaniumbox.players
 
 import android.content.Context
 import android.content.Intent
