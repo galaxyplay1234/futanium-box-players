@@ -1,4 +1,4 @@
-package com.futanium.box
+package com.futaniumbox.players
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
@@ -26,8 +26,7 @@ import okhttp3.Request
 import java.io.ByteArrayInputStream
 import java.util.Locale
 import java.util.concurrent.atomic.AtomicBoolean
-import com.google.firebase.database.FirebaseDatabase
-import java.util.UUID
+
 
 class WebViewActivity : AppCompatActivity() {
 
@@ -71,9 +70,7 @@ class WebViewActivity : AppCompatActivity() {
         private var webviewRefId: String? = null
     private var isWebviewActive = false
 
-    private fun setWebviewStatus(active: Boolean) {
-        val db = FirebaseDatabase.getInstance("https://futanium-web-default-rtdb.firebaseio.com/")
-        val webviewRef = db.getReference("webview")
+    
 
         if (active) {
             webviewRefId = UUID.randomUUID().toString()
