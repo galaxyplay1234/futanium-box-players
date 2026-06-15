@@ -12,9 +12,10 @@ import com.futaniumbox.players.WebViewActivity
 import com.futaniumbox.players.databinding.ItemChannelBinding
 import com.futaniumbox.players.model.Channel
 
-class ChannelAdapter(
-    private val items: MutableList<Channel> = mutableListOf()
-private val allItems: MutableList<Channel> = mutableListOf()
+class ChannelAdapter : RecyclerView.Adapter<ChannelAdapter.VH>() {
+
+    private val items = mutableListOf<Channel>()
+    private val allItems = mutableListOf<Channel>()
 ) : RecyclerView.Adapter<ChannelAdapter.VH>() {
 
     inner class VH(
