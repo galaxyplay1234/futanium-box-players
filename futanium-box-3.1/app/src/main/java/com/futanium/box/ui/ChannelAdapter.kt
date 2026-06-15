@@ -14,6 +14,7 @@ import com.futaniumbox.players.model.Channel
 
 class ChannelAdapter(
     private val items: MutableList<Channel> = mutableListOf()
+private val allItems: MutableList<Channel> = mutableListOf()
 ) : RecyclerView.Adapter<ChannelAdapter.VH>() {
 
     inner class VH(
@@ -21,14 +22,61 @@ class ChannelAdapter(
     ) : RecyclerView.ViewHolder(binding.root)
 
     fun submit(list: List<Channel>) {
-        items.clear()
+
+    allItems.clear()
+    allItems.addAll(list)
+
+    items.clear()
+    items.addAll(
+        list.sortedBy {
+            it.name?.lowercase()
+        }
+    )
+
+    notifyDataSetChanged()
+}
+
+private fun normalize(text: String?): String {
+
+    return java.text.Normalizer.normalize(
+        text ?: "",
+        java.text.Normalizer.Form.NFD
+    )
+        .replace("\\p{InCombiningDiacriticalMarks}+".toRegex(), "")
+        .lowercase()
+}
+
+fun filter(query: String) {
+
+    val search = normalize(query)
+
+    items.clear()
+
+    if (search.isBlank()) {
+
         items.addAll(
-            list.sortedBy {
+            allItems.sortedBy {
                 it.name?.lowercase()
             }
         )
-        notifyDataSetChanged()
+
+    } else {
+
+        items.addAll(
+            allItems.filter {
+
+                normalize(it.name).contains(search) ||
+                normalize(it.link).contains(search)
+
+            }.sortedBy {
+                it.name?.lowercase()
+            }
+        )
     }
+
+    notifyDataSetChanged()
+}
+
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
