@@ -131,6 +131,15 @@ vb.rvChannels.adapter = adapter
 vb.etSearch.addTextChangedListener { text ->
     adapter.filter(text?.toString() ?: "")
 }
+
+vb.searchLayout.setEndIconOnClickListener {
+
+    vb.etSearch.setText("")
+    vb.etSearch.clearFocus()
+
+    adapter.filter("")
+    vb.rvChannels.scrollToPosition(0)
+}
         
 
 // 🔧 Evita que o RecyclerView feche ou anime cards ao atualizar
@@ -267,6 +276,8 @@ vb.rvChannels.clipToPadding = false
         vb.swipe.setOnRefreshListener {
 
     vb.etSearch.setText("")
+vb.etSearch.clearFocus()
+
 adapter.filter("")
 vb.rvChannels.scrollToPosition(0)
 
@@ -358,8 +369,10 @@ override fun onResume() {
             R.id.action_refresh -> {
 
     vb.etSearch.setText("")
-    adapter.filter("")
-    vb.rvChannels.scrollToPosition(0)
+vb.etSearch.clearFocus()
+
+adapter.filter("")
+vb.rvChannels.scrollToPosition(0)
 
     startRefreshSpin()
 
@@ -407,8 +420,9 @@ override fun onResume() {
     adapter.submit(channels)
 
     if (vb.etSearch.text?.isNotEmpty() == true) {
-        vb.etSearch.setText("")
-    }
+    vb.etSearch.setText("")
+    vb.etSearch.clearFocus()
+}
 
     vb.rvChannels.scrollToPosition(0)
 }
