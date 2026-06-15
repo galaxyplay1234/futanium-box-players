@@ -83,26 +83,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Material3.DayNight.NoActionBar" />
 
-        <!-- 🔔 Service para receber mensagens do Firebase Cloud Messaging -->
-        <service
-            android:name=".push.MyFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
-        <!-- 🔔 Configuração padrão de notificações (ícone e canal) -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_stat_notify" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="futanium_channel" />
         
-				 <meta-data
-    android:name="android.support.customtabs.trusted.DEFAULT_URL"
-    android:value="https://www.google.com" />
+
+        
 
     </application>
 </manifest>
