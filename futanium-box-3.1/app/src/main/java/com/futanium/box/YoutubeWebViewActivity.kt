@@ -1,4 +1,4 @@
-package com.futanium.box
+package com.futaniumbox.players
 
 import android.annotation.SuppressLint
 import android.graphics.Color
