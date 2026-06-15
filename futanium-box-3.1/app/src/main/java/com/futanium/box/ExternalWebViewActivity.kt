@@ -11,7 +11,7 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import com.futanium.box.databinding.ActivityExternalWebviewBinding
+import com.futaniumbox.players.databinding.ActivityExternalWebviewBinding
 
 class ExternalWebViewActivity : AppCompatActivity() {
 
