@@ -1,4 +1,4 @@
-package com.futanium.box.model
+package com.futaniumbox.players.model
 
 data class Notice(
     val ativo: String? = "nao",
