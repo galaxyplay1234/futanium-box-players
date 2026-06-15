@@ -48,9 +48,7 @@
                 android:layout_height="wrap_content"
                 android:text="https://sinalpublico..."
                 android:textSize="12sp"
-                android:textColor="#888888"
-                android:maxLines="1"
-                android:ellipsize="end"/>
+                android:textColor="#888888"/>
         </LinearLayout>
 
     </LinearLayout>
