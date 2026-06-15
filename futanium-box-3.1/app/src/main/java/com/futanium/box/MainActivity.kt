@@ -410,38 +410,6 @@ override fun onResume() {
         if (!vb.swipe.isRefreshing) vb.swipe.isRefreshing = true
 
         Thread {
-            try {
-                val req = Request.Builder().url(API_URL).build()
-                val res = client.newCall(req).execute()
-                val body = res.body?.string() ?: "[]"
-
-						
-
-                val channels = parseChannels(body)
-
-runOnUiThread {
-    adapter.submit(channels)
-}
-
-
-
-                    
-                }
-            } catch (_: Exception) {
-                // silêncio para não expor a API
-            } finally {
-                runOnUiThread {
-                    vb.swipe.isRefreshing = false
-                    onFinally?.invoke()
-                }
-            }
-        }.start()
-    }
-
-   
-private fun refreshGamesSilent() {
-
-    Thread {
     try {
         val req = Request.Builder().url(API_URL).build()
         val res = client.newCall(req).execute()
@@ -462,6 +430,28 @@ private fun refreshGamesSilent() {
         }
     }
 }.start()
+}
+
+   
+private fun refreshGamesSilent() {
+
+    Thread {
+        try {
+            val req = Request.Builder().url(API_URL).build()
+            val res = client.newCall(req).execute()
+            val body = res.body?.string() ?: "[]"
+
+            val channels = parseChannels(body)
+
+            runOnUiThread {
+                adapter.submit(channels)
+            }
+
+        } catch (_: Exception) {
+            // silêncio
+        }
+    }.start()
+
 }
 
 
