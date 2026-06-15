@@ -58,23 +58,22 @@ class PlayerActivity : AppCompatActivity() {
     }
     
         private var m3u8RefId: String? = null
-    private var isM3u8Active = false
+private var isM3u8Active = false
 
-    
-
-        if (active) {
-            m3u8RefId = UUID.randomUUID().toString()
-            m3u8Ref.child(m3u8RefId!!).setValue(true)
-            m3u8Ref.child(m3u8RefId!!).onDisconnect().removeValue()
-            isM3u8Active = true
-        } else {
-            m3u8RefId?.let {
-                m3u8Ref.child(it).removeValue()
-                m3u8RefId = null
-                isM3u8Active = false
-            }
+private fun setM3u8Status(active: Boolean) {
+    if (active) {
+        m3u8RefId = UUID.randomUUID().toString()
+        m3u8Ref.child(m3u8RefId!!).setValue(true)
+        m3u8Ref.child(m3u8RefId!!).onDisconnect().removeValue()
+        isM3u8Active = true
+    } else {
+        m3u8RefId?.let {
+            m3u8Ref.child(it).removeValue()
+            m3u8RefId = null
+            isM3u8Active = false
         }
     }
+}
 
 
     private val controllerHandler = Handler(Looper.getMainLooper())
