@@ -5,7 +5,6 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.futanium.box.MainActivity
 import com.futanium.box.PlayerActivity
 import com.futanium.box.R
@@ -62,9 +61,7 @@ class ChannelAdapter(
 
         holder.binding.tvOnline.text = "🟢 Online"
 
-        holder.binding.imgChannel.load(
-            R.drawable.ic_channel
-        )
+        holder.binding.tvIcon.text = "▶️"
 
         holder.itemView.setOnClickListener {
 
