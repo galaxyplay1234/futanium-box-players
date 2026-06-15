@@ -53,15 +53,11 @@ class ChannelAdapter(
 
         val channel = items[position]
 
-        holder.binding.tvChannelName.text =
-            channel.name ?: ""
-
-        holder.binding.tvChannelLink.text =
-            channel.link ?: ""
-
-        holder.binding.tvOnline.text = "🟢 Online"
-
-        holder.binding.tvIcon.text = "▶️"
+        holder.binding.apply {
+    tvName.text = channel.name ?: ""
+    tvLink.text = channel.link ?: ""
+    tvIcon.text = "▶️"
+}
 
         holder.itemView.setOnClickListener {
 
