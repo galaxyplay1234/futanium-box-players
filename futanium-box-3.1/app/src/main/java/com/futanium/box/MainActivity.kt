@@ -43,11 +43,13 @@ import org.json.JSONObject
 import java.io.File
 import android.os.Bundle
 import android.content.pm.PackageManager
+import android.content.Context
 import androidx.appcompat.app.AlertDialog
 import android.widget.ProgressBar
 import android.widget.LinearLayout
 import kotlin.math.max
 import kotlin.math.min
+
 
 
 
@@ -126,6 +128,22 @@ class MainActivity : AppCompatActivity() {
 
         vb.rvChannels.layoutManager = LinearLayoutManager(this)
 vb.rvChannels.adapter = adapter
+
+
+loadChannelsCache()?.let { cachedJson ->
+
+    try {
+
+        val cachedChannels = parseChannels(cachedJson)
+
+        adapter.submit(cachedChannels)
+
+        vb.tvCount.text =
+            "${cachedChannels.size} canais"
+
+    } catch (_: Exception) {
+    }
+}
 
 
 vb.etSearch.addTextChangedListener { text ->
@@ -291,7 +309,7 @@ vb.rvChannels.scrollToPosition(0)
     })
 }
 
-        if (isOnline()) {
+        if (adapter.itemCount == 0 && isOnline()) {
     fetchGames()
 
     // checkAppUpdateExternal(
@@ -412,6 +430,8 @@ vb.rvChannels.scrollToPosition(0)
         val req = Request.Builder().url(API_URL).build()
         val res = client.newCall(req).execute()
         val body = res.body?.string() ?: "[]"
+        
+				saveChannelsCache(body)
 
         val channels = parseChannels(body)
 
@@ -778,4 +798,21 @@ private fun parseChannels(json: String): List<Channel> {
         }
         return null
     }
+
+private fun saveChannelsCache(json: String) {
+
+    getSharedPreferences("channels_cache", Context.MODE_PRIVATE)
+        .edit()
+        .putString("channels_json", json)
+        .apply()
+}
+
+private fun loadChannelsCache(): String? {
+
+    return getSharedPreferences(
+        "channels_cache",
+        Context.MODE_PRIVATE
+    ).getString("channels_json", null)
+}
+
 }
