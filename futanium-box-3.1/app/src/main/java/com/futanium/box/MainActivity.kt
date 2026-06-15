@@ -32,9 +32,9 @@ import androidx.core.content.FileProvider
 import androidx.core.view.MenuItemCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.futanium.box.databinding.ActivityMainBinding
-import com.futanium.box.ui.ChannelAdapter
-import com.futanium.box.model.Channel
+import com.futaniumbox.players.databinding.ActivityMainBinding
+import com.futaniumbox.players.ui.ChannelAdapter
+import com.futaniumbox.players.model.Channel
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
