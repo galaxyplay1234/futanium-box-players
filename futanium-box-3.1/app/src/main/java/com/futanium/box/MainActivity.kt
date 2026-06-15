@@ -33,8 +33,8 @@ import androidx.core.view.MenuItemCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.futanium.box.databinding.ActivityMainBinding
-import com.futanium.box.model.Game
 import com.futanium.box.ui.ChannelAdapter
+import com.futanium.box.model.Channel
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
 private val liveRunnable = object : Runnable {
     override fun run() {
-        refreshLiveOnly()
+        refreshGamesSilent()
         liveHandler.postDelayed(this, 30000)
     }
 }
@@ -399,16 +399,9 @@ override fun onResume() {
 
     liveHandler.removeCallbacks(liveRunnable)
 
-    if (navigatingInsideApp) {
-
-        // Atualiza somente placar/minuto ao voltar do player
-        refreshLiveOnly()
-
-    } else if (isOnline()) {
-
-        // Atualização completa apenas quando volta do segundo plano
-        refreshGamesSilent()
-    }
+    if (isOnline()) {
+    refreshGamesSilent()
+}
 
     navigatingInsideApp = false
 
@@ -485,36 +478,17 @@ override fun onResume() {
                 val res = client.newCall(req).execute()
                 val body = res.body?.string() ?: "[]"
 
-						var liveBody: String? = null
+						
 
-try {
-    val liveReq = Request.Builder()
-        .url(LIVE_API_URL)
-        .build()
+                val channels = parseChannels(body)
 
-    val liveRes = client.newCall(liveReq).execute()
-
-    liveBody = liveRes.body?.string()
-} catch (_: Exception) {
+runOnUiThread {
+    adapter.submit(channels)
 }
 
-                val games = parseGames(body, liveBody)
-                runOnUiThread {
-                    (vb.rvGames.adapter as GameAdapter).submit(games)
 
-                    // Conta os tipos de item
-val temAviso = games.any { it.homeLogo == "Aviso" }
-val temJogo = games.any { it.homeLogo != "Aviso" }
 
-// Caso não tenha nada mesmo (nem aviso)
-if (!temAviso && !temJogo) {
-    vb.rvGames.visibility = View.GONE
-    vb.emptyView.visibility = View.VISIBLE
-} else {
-    vb.rvGames.visibility = View.VISIBLE
-    // Se não houver jogos reais, mostra mensagem junto com o aviso
-    vb.emptyView.visibility = if (!temJogo) View.VISIBLE else View.GONE
-}
+                    
                 }
             } catch (_: Exception) {
                 // silêncio para não expor a API
@@ -527,29 +501,24 @@ if (!temAviso && !temJogo) {
         }.start()
     }
 
-   private fun refreshGamesSilent() {
+   
+private fun refreshGamesSilent() {
+
     Thread {
         try {
-            val req = Request.Builder().url(API_URL).build()
+
+            val req = Request.Builder()
+                .url(API_URL)
+                .build()
+
             val res = client.newCall(req).execute()
+
             val body = res.body?.string() ?: "[]"
 
-            var liveBody: String? = null
-
-            try {
-                val liveReq = Request.Builder()
-                    .url(LIVE_API_URL)
-                    .build()
-
-                val liveRes = client.newCall(liveReq).execute()
-                liveBody = liveRes.body?.string()
-            } catch (_: Exception) {
-            }
-
-            val games = parseGames(body, liveBody)
+            val channels = parseChannels(body)
 
             runOnUiThread {
-                adapter.submit(games)
+                adapter.submit(channels)
             }
 
         } catch (_: Exception) {
@@ -558,6 +527,25 @@ if (!temAviso && !temJogo) {
 }
 
 
+private fun parseChannels(json: String): List<Channel> {
+
+    val arr = JSONArray(json)
+    val list = mutableListOf<Channel>()
+
+    for (i in 0 until arr.length()) {
+
+        val obj = arr.getJSONObject(i)
+
+        list.add(
+            Channel(
+                name = obj.optString("name"),
+                link = obj.optString("link")
+            )
+        )
+    }
+
+    return list
+}
 
 
     private fun checkAppUpdateExternal(metaUrl: String, showNoUpdateToast: Boolean = false) {
@@ -729,175 +717,7 @@ if (!temAviso && !temJogo) {
         d.show()
     }
 
-		private fun teamMatches(appName: String?, liveName: String?): Boolean {
-    if (appName.isNullOrBlank() || liveName.isNullOrBlank()) return false
-
-    val a = appName.lowercase().trim()
-    val b = liveName.lowercase().trim()
-
-    return a.contains(b) || b.contains(a)
-}
-
-
-private fun refreshLiveOnly() {
-
-    Thread {
-
-        try {
-
-            val liveReq = Request.Builder()
-                .url(LIVE_API_URL)
-                .build()
-
-            val liveRes = client.newCall(liveReq).execute()
-
-            val liveBody = liveRes.body?.string() ?: return@Thread
-
-            val liveGames = mutableListOf<JSONObject>()
-
-            val liveObj = JSONObject(liveBody)
-            val liveArr = liveObj.optJSONArray("games")
-
-            if (liveArr != null) {
-                for (i in 0 until liveArr.length()) {
-                    liveGames.add(liveArr.getJSONObject(i))
-                }
-            }
-
-            val updatedGames = adapter.getCurrentGames().map { game ->
-
-    if (game.liveMinute.equals("encerrado", true)) {
-        return@map game
-    }
-
-    var score = game.liveScore
-    var minute = game.liveMinute
-
-    for (live in liveGames) {
-
-                    val liveHome = live.optString("home_team")
-                    val liveAway = live.optString("away_team")
-
-                    if (
-                        teamMatches(game.homeName, liveHome) &&
-                        teamMatches(game.awayName, liveAway)
-                    ) {
-
-                        score =
-                            "${live.optString("home_score")} x ${
-                                live.optString("away_score")
-                            }"
-
-                        minute = live.optString("minute")
-
-                        break
-                    }
-                }
-
-                game.copy(
-                    liveScore = score,
-                    liveMinute = minute
-                )
-            }
-
-            runOnUiThread {
-    adapter.updateLiveData(updatedGames)
-}
-
-
-        } catch (_: Exception) {
-        }
-
-    }.start()
-}
-
-
-    private fun parseGames(
-    json: String,
-    liveJson: String? = null
-): List<Game> {
-        val arr = JSONArray(json)
-        val list = ArrayList<Game>(arr.length())
-
-			val liveGames = mutableListOf<JSONObject>()
-
-if (!liveJson.isNullOrBlank()) {
-    try {
-        val liveObj = JSONObject(liveJson)
-        val liveArr = liveObj.optJSONArray("games")
-
-        if (liveArr != null) {
-            for (x in 0 until liveArr.length()) {
-                liveGames.add(liveArr.getJSONObject(x))
-            }
-        }
-    } catch (_: Exception) {
-    }
-}
-
-        for (i in 0 until arr.length()) {
-            val o = arr.optJSONObject(i) ?: continue
-            if (o.has("header")) continue
-
-            val championship         = o.optString("championship", "")
-            val championshipImageUrl = o.optString("championship_image_url", null)
-            val startTime            = o.optString("start_time", "")
-            val homeTeam             = o.optString("home_team", "")
-            val visitingTeam         = o.optString("visiting_team", "")
-            val homeLogo             = o.optString("home_team_image_url", null)
-            val visitingLogo         = o.optString("visiting_team_image_url", null)
-            val isLive               = o.optBoolean("is_live", false)
-            val isFinished           = o.optBoolean("is_finished", false)
-
-				var liveScore: String? = null
-var liveMinute: String? = null
-
-            val buttonsList: List<Any>? = o.optJSONArray("buttons")?.let { ja ->
-                val tmp = ArrayList<Any>(ja.length())
-                for (j in 0 until ja.length()) tmp += ja.get(j)
-                tmp
-            }
-
-					for (live in liveGames) {
-
-    val liveHome = live.optString("home_team")
-    val liveAway = live.optString("away_team")
-
-    if (
-        teamMatches(homeTeam, liveHome) &&
-        teamMatches(visitingTeam, liveAway)
-    ) {
-
-        val hs = live.optString("home_score", "0")
-        val ascore = live.optString("away_score", "0")
-
-        liveScore = "$hs x $ascore"
-        liveMinute = live.optString("minute", "")
-
-        break
-    }
-}
-
-
-            list += Game(
-    championship = championship,
-    championshipImageUrl = championshipImageUrl,
-    homeName = homeTeam,
-    homeLogo = homeLogo,
-    awayName = visitingTeam,
-    awayLogo = visitingLogo,
-    time = startTime,
-    isLive = isLive,
-    isFinished = isFinished,
-
-    liveScore = liveScore,
-    liveMinute = liveMinute,
-
-    buttons = buttonsList
-)
-        }
-        return list
-    }
+		
 
     // ===== refresh icon spin (inalterado) =====
     private fun startRefreshSpin() {
