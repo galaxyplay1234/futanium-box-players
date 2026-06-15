@@ -57,20 +57,19 @@ fun updateLiveData(newItems: List<Game>) {
     notifyDataSetChanged()
 }
     inner class VH(v: View) : RecyclerView.ViewHolder(v) {
-        val imgChamp: ImageView = v.findViewById(R.id.imgChamp)
-        val tvChamp: TextView   = v.findViewById(R.id.tvChamp)
 
-        val tvHome: TextView  = v.findViewById(R.id.tvHomeName)
-        val ivHome: ImageView = v.findViewById(R.id.imgHome)
-        val tvTime: TextView  = v.findViewById(R.id.tvTime)
-        val ivAway: ImageView = v.findViewById(R.id.imgAway)
-        val tvAway: TextView  = v.findViewById(R.id.tvAwayName)
+    val imgChannel: ImageView =
+        v.findViewById(R.id.imgChannel)
 
-        val gameStatus: TextView = v.findViewById(R.id.gameStatus)
+    val tvChannelName: TextView =
+        v.findViewById(R.id.tvChannelName)
 
-        // 🔧 Agora como ViewGroup para suportar FlexboxLayout ou LinearLayout
-        val btnContainer: ViewGroup = v.findViewById(R.id.btnContainer)
-    }
+    val tvChannelLink: TextView =
+        v.findViewById(R.id.tvChannelLink)
+
+    val tvOnline: TextView =
+        v.findViewById(R.id.tvOnline)
+}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val view = LayoutInflater.from(parent.context)
