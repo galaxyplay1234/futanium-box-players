@@ -132,24 +132,24 @@ private val liveRunnable = object : Runnable {
         vb.todayRail.bringToFront()
         vb.root.post {
             val topSpace = vb.todayRail.bottom + dp(4)
-            vb.rvGames.setPadding(
-                vb.rvGames.paddingLeft,
+            vb.rvChannels.setPadding(
+                vb.rvChannels.paddingLeft,
                 topSpace,
-                vb.rvGames.paddingRight,
-                vb.rvGames.paddingBottom
+                vb.rvChannels.paddingRight,
+                vb.rvChannels.paddingBottom
             )
             val start = vb.todayRail.bottom + dp(6)
             val end   = start + dp(44)
             vb.swipe.setProgressViewOffset(true, start, end)
         }
 
-        vb.rvGames.layoutManager = LinearLayoutManager(this)
-        vb.rvGames.adapter = adapter
+        vb.rvChannels.layoutManager = LinearLayoutManager(this)
+vb.rvChannels.adapter = adapter
         
 
 // 🔧 Evita que o RecyclerView feche ou anime cards ao atualizar
-vb.rvGames.setHasFixedSize(false)
-vb.rvGames.itemAnimator = null
+vb.rvChannels.setHasFixedSize(false)
+vb.rvChannels.itemAnimator = null
 
 
         // ======= Largura máx. 600dp em telas grandes / TV =======
@@ -164,23 +164,23 @@ vb.rvGames.itemAnimator = null
         }
 
         fun applyCardWidthConstraint() {
-            val w = vb.rvGames.width
+            val w = vb.rvChannels.width
             if (w <= 0) return
             if (isLargeNow()) {
-                vb.rvGames.clipToPadding = false
+                vb.rvChannels.clipToPadding = false
                 val target = min(w, maxCardPx)
                 val side = max(0, (w - target) / 2)
-                vb.rvGames.setPadding(side, vb.rvGames.paddingTop, side, vb.rvGames.paddingBottom)
-                for (i in 0 until vb.rvGames.childCount) {
-                    val child = vb.rvGames.getChildAt(i)
+                vb.rvChannels.setPadding(side, vb.rvChannels.paddingTop, side, vb.rvChannels.paddingBottom)
+                for (i in 0 until vb.rvChannels.childCount) {
+                    val child = vb.rvChannels.getChildAt(i)
                     val lp = child.layoutParams as RecyclerView.LayoutParams
                     lp.width = target
                     child.layoutParams = lp
                 }
             } else {
-                vb.rvGames.setPadding(0, vb.rvGames.paddingTop, 0, vb.rvGames.paddingBottom)
-                for (i in 0 until vb.rvGames.childCount) {
-                    val child = vb.rvGames.getChildAt(i)
+                vb.rvChannels.setPadding(0, vb.rvChannels.paddingTop, 0, vb.rvChannels.paddingBottom)
+                for (i in 0 until vb.rvChannels.childCount) {
+                    val child = vb.rvChannels.getChildAt(i)
                     val lp = child.layoutParams as RecyclerView.LayoutParams
                     lp.width = ViewGroup.LayoutParams.MATCH_PARENT
                     child.layoutParams = lp
@@ -188,13 +188,13 @@ vb.rvGames.itemAnimator = null
             }
         }
 
-        vb.rvGames.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> applyCardWidthConstraint() }
+        vb.rvChannels.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> applyCardWidthConstraint() }
 
-        vb.rvGames.addOnChildAttachStateChangeListener(object : RecyclerView.OnChildAttachStateChangeListener {
+        vb.rvChannels.addOnChildAttachStateChangeListener(object : RecyclerView.OnChildAttachStateChangeListener {
             override fun onChildViewAttachedToWindow(view: View) {
                 // ajusta largura do item
                 if (isLargeNow()) {
-                    val target = min(vb.rvGames.width, maxCardPx)
+                    val target = min(vb.rvChannels.width, maxCardPx)
                     (view.layoutParams as RecyclerView.LayoutParams).apply {
                         width = target
                         view.layoutParams = this
@@ -245,19 +245,19 @@ vb.rvGames.itemAnimator = null
 
         // UP/DOWN quando o foco estiver em um botão interno muda de card
         if (isTv) {
-            vb.rvGames.isFocusable = true
-            vb.rvGames.isFocusableInTouchMode = true
-            vb.rvGames.setOnKeyListener { _, keyCode, event ->
+            vb.rvChannels.isFocusable = true
+            vb.rvChannels.isFocusableInTouchMode = true
+            vb.rvChannels.setOnKeyListener { _, keyCode, event ->
                 if (event.action != KeyEvent.ACTION_DOWN) return@setOnKeyListener false
                 if (keyCode != KeyEvent.KEYCODE_DPAD_UP && keyCode != KeyEvent.KEYCODE_DPAD_DOWN) return@setOnKeyListener false
                 val focused = currentFocus ?: return@setOnKeyListener false
-                val holder = vb.rvGames.findContainingViewHolder(focused) ?: return@setOnKeyListener false
+                val holder = vb.rvChannels.findContainingViewHolder(focused) ?: return@setOnKeyListener false
                 val pos = holder.bindingAdapterPosition
                 val nextPos = if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) pos + 1 else pos - 1
-                if (nextPos < 0 || nextPos >= (vb.rvGames.adapter?.itemCount ?: 0)) return@setOnKeyListener true
-                (vb.rvGames.layoutManager as LinearLayoutManager).scrollToPosition(nextPos)
-                vb.rvGames.post {
-                    vb.rvGames.findViewHolderForAdapterPosition(nextPos)?.itemView?.requestFocus()
+                if (nextPos < 0 || nextPos >= (vb.rvChannels.adapter?.itemCount ?: 0)) return@setOnKeyListener true
+                (vb.rvChannels.layoutManager as LinearLayoutManager).scrollToPosition(nextPos)
+                vb.rvChannels.post {
+                    vb.rvChannels.findViewHolderForAdapterPosition(nextPos)?.itemView?.requestFocus()
                 }
                 true
             }
@@ -280,13 +280,13 @@ vb.rvGames.itemAnimator = null
 
 				// 🔹 Espaço extra no final da lista (sem afetar os cards)
 val bottomSpace = (40 * resources.displayMetrics.density).toInt()
-vb.rvGames.setPadding(
-    vb.rvGames.paddingLeft,
-    vb.rvGames.paddingTop,
-    vb.rvGames.paddingRight,
+vb.rvChannels.setPadding(
+    vb.rvChannels.paddingLeft,
+    vb.rvChannels.paddingTop,
+    vb.rvChannels.paddingRight,
     bottomSpace
 )
-vb.rvGames.clipToPadding = false
+vb.rvChannels.clipToPadding = false
 
 
 
@@ -751,13 +751,13 @@ private fun parseChannels(json: String): List<Channel> {
                     v.setOnKeyListener { btn, keyCode, ev ->
                         if (ev.action != KeyEvent.ACTION_DOWN) return@setOnKeyListener false
                         if (keyCode == KeyEvent.KEYCODE_DPAD_UP || keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-                            val holder = vb.rvGames.findContainingViewHolder(btn) ?: return@setOnKeyListener false
+                            val holder = vb.rvChannels.findContainingViewHolder(btn) ?: return@setOnKeyListener false
                             val pos = holder.bindingAdapterPosition
                             val nextPos = if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) pos + 1 else pos - 1
-                            if (nextPos < 0 || nextPos >= (vb.rvGames.adapter?.itemCount ?: 0)) return@setOnKeyListener true
-                            (vb.rvGames.layoutManager as LinearLayoutManager).scrollToPosition(nextPos)
-                            vb.rvGames.post {
-                                vb.rvGames.findViewHolderForAdapterPosition(nextPos)?.itemView?.requestFocus()
+                            if (nextPos < 0 || nextPos >= (vb.rvChannels.adapter?.itemCount ?: 0)) return@setOnKeyListener true
+                            (vb.rvChannels.layoutManager as LinearLayoutManager).scrollToPosition(nextPos)
+                            vb.rvChannels.post {
+                                vb.rvChannels.findViewHolderForAdapterPosition(nextPos)?.itemView?.requestFocus()
                             }
                             return@setOnKeyListener true
                         }
