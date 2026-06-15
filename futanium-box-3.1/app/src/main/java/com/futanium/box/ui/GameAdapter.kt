@@ -1,4 +1,4 @@
-package com.futanium.box.ui
+package com.futaniumbox.players.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -15,9 +15,9 @@ import coil.dispose
 import coil.load
 import coil.imageLoader
 import coil.request.ImageRequest
-import com.futanium.box.R
-import com.futanium.box.model.Game
-import com.futanium.box.MainActivity
+import com.futaniumbox.players.R
+import com.futaniumbox.players.model.Game
+import com.futaniumbox.players.MainActivity
 import org.json.JSONObject
 import androidx.browser.customtabs.CustomTabsIntent
 import android.text.TextUtils
