@@ -14,13 +14,13 @@ import com.futaniumbox.players.model.Channel
 
 class ChannelAdapter : RecyclerView.Adapter<ChannelAdapter.VH>() {
 
-    private val items = mutableListOf<Channel>(),
+    private val items = mutableListOf<Channel>()
     private val allItems = mutableListOf<Channel>()
-) : RecyclerView.Adapter<ChannelAdapter.VH>() {
 
     inner class VH(
         val binding: ItemChannelBinding
     ) : RecyclerView.ViewHolder(binding.root)
+
 
     fun submit(list: List<Channel>) {
 
