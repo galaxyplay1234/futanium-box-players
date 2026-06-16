@@ -129,6 +129,8 @@ class MainActivity : AppCompatActivity() {
         vb.rvChannels.layoutManager = LinearLayoutManager(this)
 vb.rvChannels.adapter = adapter
 
+vb.swipe.isEnabled = false
+
 
 loadChannelsCache()?.let { cachedJson ->
 
@@ -309,34 +311,29 @@ vb.rvChannels.scrollToPosition(0)
     })
 }
 
-        if (adapter.itemCount == 0 && isOnline()) {
-    fetchGames()
+        if (adapter.itemCount == 0) {
 
-    // checkAppUpdateExternal(
-    //     metaUrl = "https://raw.githubusercontent.com/galaxyplay1234/futanium-box-3.1/refs/heads/main/update.json",
-    //     showNoUpdateToast = false
-    // )
-} else {
-            showOfflineDialog {
-    vb.swipe.isRefreshing = true
-    fetchGames()
+    if (isOnline()) {
 
-    // checkAppUpdateExternal(
-    //     metaUrl = "https://raw.githubusercontent.com/galaxyplay1234/futanium-box-3.1/refs/heads/main/update.json",
-    //     showNoUpdateToast = false
-    // )
-}
+        fetchGames()
+
+        // checkAppUpdateExternal(
+        //     metaUrl = "https://raw.githubusercontent.com/galaxyplay1234/futanium-box-3.1/refs/heads/main/update.json",
+        //     showNoUpdateToast = false
+        // )
+
+    } else {
+
+        showOfflineDialog {
+            vb.swipe.isRefreshing = true
+            fetchGames()
         }
 
-			
-
-    
-
+    }
+}
 
 
-
-
-    } // onCreate
+ // onCreate
 
    override fun onPause() {
     super.onPause()
