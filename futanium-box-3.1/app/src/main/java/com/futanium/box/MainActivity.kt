@@ -333,7 +333,7 @@ vb.rvChannels.scrollToPosition(0)
 }
 
 
- // onCreate
+} // onCreate
 
    override fun onPause() {
     super.onPause()
