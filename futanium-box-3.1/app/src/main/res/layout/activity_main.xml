@@ -39,13 +39,17 @@
     android:minWidth="0dp"
     android:paddingStart="14dp"
     android:paddingEnd="14dp"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
     android:text="PAINEL"
     android:textAllCaps="false"
     android:textSize="13sp"
     android:textColor="#5F5F5F"
     app:backgroundTint="#DCDCDC"
-    app:cornerRadius="4dp"
-    app:rippleColor="#22000000"/>
+    app:cornerRadius="6dp"
+    app:rippleColor="#22000000"
+    app:insetTop="0dp"
+    app:insetBottom="0dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
     android:id="@+id/searchLayout"
