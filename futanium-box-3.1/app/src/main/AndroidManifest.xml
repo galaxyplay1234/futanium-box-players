@@ -60,7 +60,6 @@
     android:theme="@style/Theme.Futanium.Fullscreen" />
 
         <activity
-            <activity
 						    android:name=".MainActivity"
 						    android:exported="true"
 							  android:windowDisablePreview="true"
