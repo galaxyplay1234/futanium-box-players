@@ -37,7 +37,10 @@
     android:layout_marginTop="8dp"
     android:text="Painel"
     android:textAllCaps="false"
-    app:cornerRadius="12dp"/>
+    android:textColor="#707070"
+    app:backgroundTint="#EFEFEF"
+    app:cornerRadius="18dp"
+    app:elevation="0dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
     android:id="@+id/searchLayout"
@@ -82,16 +85,22 @@
             android:clipToPadding="false"
             android:paddingBottom="4dp"/>
 
-		<WebView
+		
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+	<WebView
     android:id="@+id/webViewPanel"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="1"
     android:visibility="gone"/>
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>
+
+
+
 
 
        <TextView
