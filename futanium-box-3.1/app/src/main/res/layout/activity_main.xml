@@ -29,23 +29,46 @@
     android:orientation="vertical">
 
 
-		<com.google.android.material.button.MaterialButton
-    android:id="@+id/btnPainel"
+		<LinearLayout
     android:layout_width="wrap_content"
-    android:layout_height="40dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:layout_marginStart="12dp"
     android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
-    android:minWidth="0dp"
-    android:paddingStart="14dp"
-    android:paddingEnd="14dp"
-    android:text="Painel"
-    android:textAllCaps="false"
-    android:textSize="14sp"
-    android:textColor="#222222"
-    app:backgroundTint="#E5E5E5"
-    app:cornerRadius="6dp"
-    app:rippleColor="#22000000"/>
+    android:layout_marginBottom="4dp">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnPainel"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:minWidth="0dp"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:text="Painel"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:textColor="#222222"
+        app:backgroundTint="#E5E5E5"
+        app:cornerRadius="6dp"
+        app:rippleColor="#22000000"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnNotificacao"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:minWidth="0dp"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:text="Notificação"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:textColor="#222222"
+        app:backgroundTint="#E5E5E5"
+        app:cornerRadius="6dp"
+        app:rippleColor="#22000000"/>
+
+</LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
     android:id="@+id/searchLayout"
