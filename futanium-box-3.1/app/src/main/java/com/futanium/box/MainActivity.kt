@@ -142,7 +142,7 @@ vb.btnPainel.setOnClickListener {
 
     if (painelAberto) {
 
-        vb.btnPainel.text = "Canais"
+        vb.btnPainel.text = "CANAIS"
 
         vb.searchLayout.visibility = View.GONE
         vb.tvCount.visibility = View.GONE
