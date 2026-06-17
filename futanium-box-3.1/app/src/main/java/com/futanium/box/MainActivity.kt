@@ -47,6 +47,7 @@ import android.content.Context
 import androidx.appcompat.app.AlertDialog
 import android.widget.ProgressBar
 import android.widget.LinearLayout
+import android.webkit.WebViewClient
 import kotlin.math.max
 import kotlin.math.min
 
@@ -133,6 +134,7 @@ var painelAberto = false
 
 vb.webViewPanel.settings.javaScriptEnabled = true
 vb.webViewPanel.settings.domStorageEnabled = true
+vb.webViewPanel.webViewClient = WebViewClient()
 
 vb.btnPainel.setOnClickListener {
 
@@ -148,7 +150,11 @@ vb.btnPainel.setOnClickListener {
 
         vb.webViewPanel.visibility = View.VISIBLE
 
-        vb.webViewPanel.loadUrl("https://futaniumwebapp.vercel.app/painel/home.html")
+        if (vb.webViewPanel.url == null) {
+    vb.webViewPanel.loadUrl(
+        "https://futaniumwebapp.vercel.app/painel/home.html"
+    )
+}
 
     } else {
 
