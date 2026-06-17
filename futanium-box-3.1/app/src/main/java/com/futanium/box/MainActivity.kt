@@ -129,6 +129,39 @@ class MainActivity : AppCompatActivity() {
         vb.rvChannels.layoutManager = LinearLayoutManager(this)
 vb.rvChannels.adapter = adapter
 
+var painelAberto = false
+
+vb.webViewPanel.settings.javaScriptEnabled = true
+vb.webViewPanel.settings.domStorageEnabled = true
+
+vb.btnPainel.setOnClickListener {
+
+    painelAberto = !painelAberto
+
+    if (painelAberto) {
+
+        vb.btnPainel.text = "Canais"
+
+        vb.searchLayout.visibility = View.GONE
+        vb.tvCount.visibility = View.GONE
+        vb.swipe.visibility = View.GONE
+
+        vb.webViewPanel.visibility = View.VISIBLE
+
+        vb.webViewPanel.loadUrl("https://futaniumwebapp.vercel.app/painel/home.html")
+
+    } else {
+
+        vb.btnPainel.text = "Painel"
+
+        vb.searchLayout.visibility = View.VISIBLE
+        vb.tvCount.visibility = View.VISIBLE
+        vb.swipe.visibility = View.VISIBLE
+
+        vb.webViewPanel.visibility = View.GONE
+    }
+}
+
 vb.swipe.isEnabled = false
 
 
