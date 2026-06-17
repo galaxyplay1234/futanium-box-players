@@ -37,15 +37,14 @@
     android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp"
     android:minWidth="0dp"
-    android:minHeight="0dp"
     android:paddingStart="14dp"
     android:paddingEnd="14dp"
-    android:text="Painel"
+    android:text="PAINEL"
     android:textAllCaps="false"
     android:textSize="13sp"
     android:textColor="#5F5F5F"
     app:backgroundTint="#DCDCDC"
-    app:cornerRadius="8dp"
+    app:cornerRadius="4dp"
     app:rippleColor="#22000000"/>
 
     <com.google.android.material.textfield.TextInputLayout
