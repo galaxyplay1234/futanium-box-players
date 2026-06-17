@@ -143,33 +143,23 @@ vb.webViewPanel.webViewClient = object : WebViewClient() {
         view?.evaluateJavascript("""
 (function() {
 
+    // Remove barra preta "Painel Futanium"
     var header = document.querySelector('.fixed.top-0.left-0.right-0');
-
     if (header) {
         header.remove();
     }
 
-    document.body.style.marginTop = '0px';
-    document.body.style.paddingTop = '0px';
-
-    var main = document.querySelector('main');
-    if (main) {
-        main.style.marginTop = '0px';
-        main.style.paddingTop = '0px';
+    // Sobe a barra de tabs para o topo
+    var tabs = document.querySelector('.fixed.top-14');
+    if (tabs) {
+        tabs.style.top = '0px';
     }
 
-    document.querySelectorAll('*').forEach(function(el) {
-
-        var style = window.getComputedStyle(el);
-
-        if (
-            style.position === 'fixed' &&
-            parseInt(style.top || '0') === 0
-        ) {
-            el.remove();
-        }
-
-    });
+    // Remove o espaço branco
+    var dashboard = document.getElementById('dashboard');
+    if (dashboard) {
+        dashboard.style.paddingTop = '48px';
+    }
 
 })();
 """.trimIndent(), null)
