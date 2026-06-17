@@ -41,7 +41,7 @@
     android:paddingEnd="14dp"
     android:text="Painel"
     android:textAllCaps="false"
-    android:textSize="13sp"
+    android:textSize="14sp"
     android:textColor="#222222"
     app:backgroundTint="#E5E5E5"
     app:cornerRadius="6dp"
