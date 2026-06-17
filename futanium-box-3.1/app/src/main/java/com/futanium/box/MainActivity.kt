@@ -147,6 +147,42 @@ vb.webViewNotificacao.loadUrl(
     "https://controledeestoque.rf.gd/futaniumbox/futaniumbox/notificacao.php?i=1"
 )
 
+fun ativarAba(aba: String) {
+
+    val azul = Color.parseColor("#1677FF")
+    val cinza = Color.parseColor("#E5E5E5")
+
+    vb.btnCanais.setBackgroundColor(cinza)
+    vb.btnPainel.setBackgroundColor(cinza)
+    vb.btnNotificacao.setBackgroundColor(cinza)
+
+    vb.btnCanais.setTextColor(Color.parseColor("#222222"))
+    vb.btnPainel.setTextColor(Color.parseColor("#222222"))
+    vb.btnNotificacao.setTextColor(Color.parseColor("#222222"))
+
+    when (aba) {
+
+        "canais" -> {
+            vb.btnCanais.setBackgroundColor(azul)
+            vb.btnCanais.setTextColor(Color.WHITE)
+        }
+
+        "painel" -> {
+            vb.btnPainel.setBackgroundColor(azul)
+            vb.btnPainel.setTextColor(Color.WHITE)
+        }
+
+        "notificacao" -> {
+            vb.btnNotificacao.setBackgroundColor(azul)
+            vb.btnNotificacao.setTextColor(Color.WHITE)
+        }
+    }
+}
+
+ativarAba("canais")
+
+
+
 vb.webViewPanel.webViewClient = object : WebViewClient() {
 
     override fun onPageFinished(view: android.webkit.WebView?, url: String?) {
@@ -178,35 +214,35 @@ vb.webViewPanel.webViewClient = object : WebViewClient() {
     }
 }
 
+vb.btnCanais.setOnClickListener {
+
+    ativarAba("canais")
+
+    vb.searchLayout.visibility = View.VISIBLE
+    vb.tvCount.visibility = View.VISIBLE
+    vb.swipe.visibility = View.VISIBLE
+
+    vb.webViewPanel.visibility = View.GONE
+    vb.webViewNotificacao.visibility = View.GONE
+}
+
+
 vb.btnPainel.setOnClickListener {
 
-    if (vb.webViewPanel.visibility == View.VISIBLE) {
+    ativarAba("painel")
 
-        vb.btnPainel.text = "Painel"
+    vb.searchLayout.visibility = View.GONE
+    vb.tvCount.visibility = View.GONE
+    vb.swipe.visibility = View.GONE
 
-        vb.webViewPanel.visibility = View.GONE
-        vb.webViewNotificacao.visibility = View.GONE
-
-        vb.searchLayout.visibility = View.VISIBLE
-        vb.tvCount.visibility = View.VISIBLE
-        vb.swipe.visibility = View.VISIBLE
-
-    } else {
-
-        vb.btnPainel.text = "Canais"
-
-        vb.searchLayout.visibility = View.GONE
-        vb.tvCount.visibility = View.GONE
-        vb.swipe.visibility = View.GONE
-
-        vb.webViewNotificacao.visibility = View.GONE
-        vb.webViewPanel.visibility = View.VISIBLE
-    }
+    vb.webViewNotificacao.visibility = View.GONE
+    vb.webViewPanel.visibility = View.VISIBLE
 }
+
 
 vb.btnNotificacao.setOnClickListener {
 
-    vb.btnPainel.text = "Canais"
+    ativarAba("notificacao")
 
     vb.searchLayout.visibility = View.GONE
     vb.tvCount.visibility = View.GONE
@@ -215,6 +251,7 @@ vb.btnNotificacao.setOnClickListener {
     vb.webViewPanel.visibility = View.GONE
     vb.webViewNotificacao.visibility = View.VISIBLE
 }
+
 
 
 vb.swipe.isEnabled = false
