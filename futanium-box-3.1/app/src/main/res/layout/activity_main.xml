@@ -42,9 +42,9 @@
     android:text="Painel"
     android:textAllCaps="false"
     android:textSize="13sp"
-    android:textColor="#5F5F5F"
-    app:backgroundTint="#DCDCDC"
-    app:cornerRadius="6dp"
+    android:textColor="#222222"
+    app:backgroundTint="#E5E5E5"
+    app:cornerRadius="8dp"
     app:rippleColor="#22000000"/>
 
     <com.google.android.material.textfield.TextInputLayout
