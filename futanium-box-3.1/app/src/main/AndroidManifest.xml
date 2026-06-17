@@ -60,9 +60,11 @@
     android:theme="@style/Theme.Futanium.Fullscreen" />
 
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:windowDisablePreview="true">
+            <activity
+    android:name=".MainActivity"
+    android:exported="true"
+    android:windowDisablePreview="true"
+    android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
