@@ -32,15 +32,17 @@
 		<com.google.android.material.button.MaterialButton
     android:id="@+id/btnPainel"
     android:layout_width="wrap_content"
-    android:layout_height="40dp"
+    android:layout_height="36dp"
     android:layout_marginStart="12dp"
     android:layout_marginTop="8dp"
     android:text="Painel"
     android:textAllCaps="false"
-    android:textColor="#707070"
-    app:backgroundTint="#EFEFEF"
-    app:cornerRadius="18dp"
-    app:elevation="0dp"/>
+    android:textColor="#666666"
+    android:textSize="13sp"
+    app:backgroundTint="#E6E6E6"
+    app:cornerRadius="10dp"
+    app:elevation="1dp"
+    app:rippleColor="#33000000"/>
 
     <com.google.android.material.textfield.TextInputLayout
     android:id="@+id/searchLayout"
