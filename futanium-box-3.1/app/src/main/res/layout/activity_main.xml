@@ -38,15 +38,25 @@
     android:layout_marginBottom="4dp">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnPainel"
+        android:id="@+id/btnCanais"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:minWidth="0dp"
-        android:paddingStart="14dp"
-        android:paddingEnd="14dp"
+        android:text="Canais"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#1677FF"
+        app:cornerRadius="6dp"
+        app:rippleColor="#22000000"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnPainel"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:minWidth="0dp"
         android:text="Painel"
         android:textAllCaps="false"
-        android:textSize="14sp"
         android:textColor="#222222"
         app:backgroundTint="#E5E5E5"
         app:cornerRadius="6dp"
@@ -58,11 +68,8 @@
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:minWidth="0dp"
-        android:paddingStart="14dp"
-        android:paddingEnd="14dp"
         android:text="Notificação"
         android:textAllCaps="false"
-        android:textSize="14sp"
         android:textColor="#222222"
         app:backgroundTint="#E5E5E5"
         app:cornerRadius="6dp"
