@@ -130,11 +130,22 @@ class MainActivity : AppCompatActivity() {
         vb.rvChannels.layoutManager = LinearLayoutManager(this)
 vb.rvChannels.adapter = adapter
 
-var painelAberto = false
-var notificacaoAberta = false
 
 vb.webViewPanel.settings.javaScriptEnabled = true
 vb.webViewPanel.settings.domStorageEnabled = true
+
+vb.webViewNotificacao.settings.javaScriptEnabled = true
+vb.webViewNotificacao.settings.domStorageEnabled = true
+vb.webViewNotificacao.webViewClient = WebViewClient()
+
+
+vb.webViewPanel.loadUrl(
+    "https://futaniumwebapp.vercel.app/painel/home.html"
+)
+
+vb.webViewNotificacao.loadUrl(
+    "https://controledeestoque.rf.gd/futaniumbox/futaniumbox/notificacao.php?i=1"
+)
 
 vb.webViewPanel.webViewClient = object : WebViewClient() {
 
@@ -169,9 +180,18 @@ vb.webViewPanel.webViewClient = object : WebViewClient() {
 
 vb.btnPainel.setOnClickListener {
 
-    painelAberto = !painelAberto
+    if (vb.webViewPanel.visibility == View.VISIBLE) {
 
-    if (painelAberto) {
+        vb.btnPainel.text = "Painel"
+
+        vb.webViewPanel.visibility = View.GONE
+        vb.webViewNotificacao.visibility = View.GONE
+
+        vb.searchLayout.visibility = View.VISIBLE
+        vb.tvCount.visibility = View.VISIBLE
+        vb.swipe.visibility = View.VISIBLE
+
+    } else {
 
         vb.btnPainel.text = "Canais"
 
@@ -179,50 +199,21 @@ vb.btnPainel.setOnClickListener {
         vb.tvCount.visibility = View.GONE
         vb.swipe.visibility = View.GONE
 
+        vb.webViewNotificacao.visibility = View.GONE
         vb.webViewPanel.visibility = View.VISIBLE
-
-        if (vb.webViewPanel.url == null) {
-    vb.webViewPanel.loadUrl(
-        "https://futaniumwebapp.vercel.app/painel/home.html"
-    )
-}
-
-    } else {
-
-        vb.btnPainel.text = "Painel"
-
-        vb.searchLayout.visibility = View.VISIBLE
-        vb.tvCount.visibility = View.VISIBLE
-        vb.swipe.visibility = View.VISIBLE
-
-        vb.webViewPanel.visibility = View.GONE
     }
 }
 
 vb.btnNotificacao.setOnClickListener {
 
-    notificacaoAberta = !notificacaoAberta
+    vb.btnPainel.text = "Canais"
 
-    if (notificacaoAberta) {
+    vb.searchLayout.visibility = View.GONE
+    vb.tvCount.visibility = View.GONE
+    vb.swipe.visibility = View.GONE
 
-        vb.searchLayout.visibility = View.GONE
-        vb.tvCount.visibility = View.GONE
-        vb.swipe.visibility = View.GONE
-
-        vb.webViewPanel.visibility = View.VISIBLE
-
-        vb.webViewPanel.loadUrl(
-            "https://controledeestoque.rf.gd/futaniumbox/futaniumbox/notificacao.php?i=1"
-        )
-
-    } else {
-
-        vb.searchLayout.visibility = View.VISIBLE
-        vb.tvCount.visibility = View.VISIBLE
-        vb.swipe.visibility = View.VISIBLE
-
-        vb.webViewPanel.visibility = View.GONE
-    }
+    vb.webViewPanel.visibility = View.GONE
+    vb.webViewNotificacao.visibility = View.VISIBLE
 }
 
 
