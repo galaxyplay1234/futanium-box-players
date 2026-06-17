@@ -44,7 +44,7 @@
     android:textSize="13sp"
     android:textColor="#222222"
     app:backgroundTint="#E5E5E5"
-    app:cornerRadius="8dp"
+    app:cornerRadius="6dp"
     app:rippleColor="#22000000"/>
 
     <com.google.android.material.textfield.TextInputLayout
