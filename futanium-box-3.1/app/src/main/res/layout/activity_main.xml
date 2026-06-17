@@ -28,6 +28,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+		<com.google.android.material.button.MaterialButton
+    android:id="@+id/btnPainel"
+    android:layout_width="wrap_content"
+    android:layout_height="40dp"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="8dp"
+    android:text="Painel"
+    android:textAllCaps="false"
+    app:cornerRadius="12dp"/>
+
     <com.google.android.material.textfield.TextInputLayout
     android:id="@+id/searchLayout"
     android:layout_width="match_parent"
@@ -70,6 +81,13 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingBottom="4dp"/>
+
+		<WebView
+    android:id="@+id/webViewPanel"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:visibility="gone"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
