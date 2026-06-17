@@ -141,19 +141,38 @@ vb.webViewPanel.webViewClient = object : WebViewClient() {
         super.onPageFinished(view, url)
 
         view?.evaluateJavascript("""
-            (function() {
+(function() {
 
-                var header = document.querySelector('.fixed.top-0.left-0.right-0');
+    var header = document.querySelector('.fixed.top-0.left-0.right-0');
 
-                if (header) {
-                    header.remove();
-                }
+    if (header) {
+        header.remove();
+    }
 
-                document.body.style.paddingTop = '0px';
-                document.body.style.marginTop = '0px';
+    document.body.style.marginTop = '0px';
+    document.body.style.paddingTop = '0px';
 
-            })();
-        """.trimIndent(), null)
+    var main = document.querySelector('main');
+    if (main) {
+        main.style.marginTop = '0px';
+        main.style.paddingTop = '0px';
+    }
+
+    document.querySelectorAll('*').forEach(function(el) {
+
+        var style = window.getComputedStyle(el);
+
+        if (
+            style.position === 'fixed' &&
+            parseInt(style.top || '0') === 0
+        ) {
+            el.remove();
+        }
+
+    });
+
+})();
+""".trimIndent(), null)
     }
 }
 
