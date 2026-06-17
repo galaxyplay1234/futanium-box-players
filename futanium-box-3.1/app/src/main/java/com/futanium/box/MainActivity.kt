@@ -139,13 +139,27 @@ vb.webViewNotificacao.settings.domStorageEnabled = true
 vb.webViewNotificacao.webViewClient = WebViewClient()
 
 
-vb.webViewPanel.loadUrl(
-    "https://futaniumwebapp.vercel.app/painel/home.html"
-)
+vb.webViewPanel.settings.cacheMode =
+    android.webkit.WebSettings.LOAD_DEFAULT
 
-vb.webViewNotificacao.loadUrl(
-    "https://controledeestoque.rf.gd/futaniumbox/futaniumbox/notificacao.php?i=1"
-)
+vb.webViewNotificacao.settings.cacheMode =
+    android.webkit.WebSettings.LOAD_DEFAULT
+
+if (savedInstanceState != null) {
+
+    vb.webViewPanel.restoreState(savedInstanceState)
+    vb.webViewNotificacao.restoreState(savedInstanceState)
+
+} else {
+
+    vb.webViewPanel.loadUrl(
+        "https://futaniumwebapp.vercel.app/painel/home.html"
+    )
+
+    vb.webViewNotificacao.loadUrl(
+        "https://controledeestoque.rf.gd/futaniumbox/futaniumbox/notificacao.php?i=1"
+    )
+}
 
 fun ativarAba(aba: String) {
 
@@ -920,6 +934,15 @@ private fun parseChannels(json: String): List<Channel> {
         }
         return null
     }
+
+override fun onSaveInstanceState(outState: Bundle) {
+    super.onSaveInstanceState(outState)
+
+    vb.webViewPanel.saveState(outState)
+    vb.webViewNotificacao.saveState(outState)
+}
+
+
 
 private fun saveChannelsCache(json: String) {
 
