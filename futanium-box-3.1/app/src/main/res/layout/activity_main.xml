@@ -32,7 +32,7 @@
 		<com.google.android.material.button.MaterialButton
     android:id="@+id/btnPainel"
     android:layout_width="wrap_content"
-    android:layout_height="38dp"
+    android:layout_height="39dp"
     android:layout_marginStart="12dp"
     android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp"
