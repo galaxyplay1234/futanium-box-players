@@ -134,7 +134,28 @@ var painelAberto = false
 
 vb.webViewPanel.settings.javaScriptEnabled = true
 vb.webViewPanel.settings.domStorageEnabled = true
-vb.webViewPanel.webViewClient = WebViewClient()
+
+vb.webViewPanel.webViewClient = object : WebViewClient() {
+
+    override fun onPageFinished(view: android.webkit.WebView?, url: String?) {
+        super.onPageFinished(view, url)
+
+        view?.evaluateJavascript("""
+            (function() {
+
+                var header = document.querySelector('.fixed.top-0.left-0.right-0');
+
+                if (header) {
+                    header.remove();
+                }
+
+                document.body.style.paddingTop = '0px';
+                document.body.style.marginTop = '0px';
+
+            })();
+        """.trimIndent(), null)
+    }
+}
 
 vb.btnPainel.setOnClickListener {
 
