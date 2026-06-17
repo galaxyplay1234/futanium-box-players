@@ -131,6 +131,7 @@ class MainActivity : AppCompatActivity() {
 vb.rvChannels.adapter = adapter
 
 var painelAberto = false
+var notificacaoAberta = false
 
 vb.webViewPanel.settings.javaScriptEnabled = true
 vb.webViewPanel.settings.domStorageEnabled = true
@@ -197,6 +198,33 @@ vb.btnPainel.setOnClickListener {
         vb.webViewPanel.visibility = View.GONE
     }
 }
+
+vb.btnNotificacao.setOnClickListener {
+
+    notificacaoAberta = !notificacaoAberta
+
+    if (notificacaoAberta) {
+
+        vb.searchLayout.visibility = View.GONE
+        vb.tvCount.visibility = View.GONE
+        vb.swipe.visibility = View.GONE
+
+        vb.webViewPanel.visibility = View.VISIBLE
+
+        vb.webViewPanel.loadUrl(
+            "https://controledeestoque.rf.gd/futaniumbox/futaniumbox/notificacao.php?i=1"
+        )
+
+    } else {
+
+        vb.searchLayout.visibility = View.VISIBLE
+        vb.tvCount.visibility = View.VISIBLE
+        vb.swipe.visibility = View.VISIBLE
+
+        vb.webViewPanel.visibility = View.GONE
+    }
+}
+
 
 vb.swipe.isEnabled = false
 
