@@ -147,8 +147,17 @@ vb.webViewNotificacao.settings.cacheMode =
 
 if (savedInstanceState != null) {
 
-    vb.webViewPanel.restoreState(savedInstanceState)
-    vb.webViewNotificacao.restoreState(savedInstanceState)
+    savedInstanceState
+        .getBundle("panel_webview")
+        ?.let {
+            vb.webViewPanel.restoreState(it)
+        }
+
+    savedInstanceState
+        .getBundle("notif_webview")
+        ?.let {
+            vb.webViewNotificacao.restoreState(it)
+        }
 
 } else {
 
@@ -938,8 +947,19 @@ private fun parseChannels(json: String): List<Channel> {
 override fun onSaveInstanceState(outState: Bundle) {
     super.onSaveInstanceState(outState)
 
-    vb.webViewPanel.saveState(outState)
-    vb.webViewNotificacao.saveState(outState)
+    val panelState = Bundle()
+    vb.webViewPanel.saveState(panelState)
+    outState.putBundle(
+        "panel_webview",
+        panelState
+    )
+
+    val notifState = Bundle()
+    vb.webViewNotificacao.saveState(notifState)
+    outState.putBundle(
+        "notif_webview",
+        notifState
+    )
 }
 
 
