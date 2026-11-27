@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
 		
 
     private val API_URL =
-    "https://futaniumwebapp.vercel.app/api/buttons"
+    "https://futanium-painel-2-api.galaxyplay1234.workers.dev/api/buttons"
 
     private var refreshItem: MenuItem? = null
     private var refreshView: AppCompatImageView? = null
@@ -162,7 +162,7 @@ if (savedInstanceState != null) {
 } else {
 
     vb.webViewPanel.loadUrl(
-        "https://futaniumwebapp.vercel.app/painel/home.html"
+        "https://futaniumwebapp.vercel.app/painel2/home.html"
     )
 
     vb.webViewNotificacao.loadUrl(
