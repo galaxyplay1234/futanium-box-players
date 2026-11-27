@@ -11,6 +11,7 @@ import com.futaniumbox.players.R
 import com.futaniumbox.players.WebViewActivity
 import com.futaniumbox.players.databinding.ItemChannelBinding
 import com.futaniumbox.players.model.Channel
+import org.json.JSONObject
 
 class ChannelAdapter : RecyclerView.Adapter<ChannelAdapter.VH>() {
 
@@ -108,50 +109,84 @@ fun filter(query: String) {
     tvIcon.text = "▶️"
 }
 
-        holder.itemView.setOnClickListener {
+        
+holder.itemView.setOnClickListener {
 
-            val url = channel.link ?: return@setOnClickListener
+    val url = channel.link ?: return@setOnClickListener
 
-            MainActivity.navigatingInsideApp = true
+    MainActivity.navigatingInsideApp = true
 
-            if (
-                url.endsWith(".m3u8") ||
-                url.endsWith(".mp4") ||
-                url.endsWith(".ts")
-            ) {
+    // Verifica se o link é um JSON DASH ou HLS.
+    val streamConfig = try {
+        JSONObject(url)
+    } catch (_: Exception) {
+        null
+    }
 
-                val intent = Intent(
-                    it.context,
-                    PlayerActivity::class.java
-                )
+    val streamType = streamConfig
+        ?.optString("type", "")
+        ?.lowercase()
+        .orEmpty()
 
-                intent.putExtra(
-                    PlayerActivity.EXTRA_URL,
-                    url
-                )
+    val jsonMediaUrl = streamConfig
+        ?.optString("url", "")
+        .orEmpty()
 
-                intent.putExtra(
-                    PlayerActivity.EXTRA_TITLE,
-                    channel.name ?: ""
-                )
+    val isJsonStream =
+        jsonMediaUrl.isNotBlank() &&
+        (streamType == "dash" || streamType == "hls")
 
-                it.context.startActivity(intent)
+    // Identifica links diretos, inclusive com parâmetros na URL.
+    val path = try {
+        Uri.parse(url).path.orEmpty().lowercase()
+    } catch (_: Exception) {
+        url.lowercase()
+    }
 
-            } else {
+    val isDirectStream =
+        path.endsWith(".m3u8") ||
+        path.endsWith(".mpd") ||
+        path.endsWith(".mp4") ||
+        path.endsWith(".ts") ||
+        path.endsWith(".txt")
 
-                val intent = Intent(
-                    it.context,
-                    WebViewActivity::class.java
-                )
+    if (isJsonStream || isDirectStream) {
 
-                intent.putExtra(
-                    WebViewActivity.EXTRA_URL,
-                    url
-                )
+        val intent = Intent(
+            it.context,
+            PlayerActivity::class.java
+        )
 
-                it.context.startActivity(intent)
-            }
-        }
+        // IMPORTANTE: envia o JSON INTEIRO,
+        // incluindo URL, type e clearkey.
+        intent.putExtra(
+            PlayerActivity.EXTRA_URL,
+            url
+        )
+
+        intent.putExtra(
+            PlayerActivity.EXTRA_TITLE,
+            channel.name ?: ""
+        )
+
+        it.context.startActivity(intent)
+
+    } else {
+
+        val intent = Intent(
+            it.context,
+            WebViewActivity::class.java
+        )
+
+        intent.putExtra(
+            WebViewActivity.EXTRA_URL,
+            url
+        )
+
+        it.context.startActivity(intent)
+    }
+}
+
 
 			holder.itemView.setOnLongClickListener {
 
