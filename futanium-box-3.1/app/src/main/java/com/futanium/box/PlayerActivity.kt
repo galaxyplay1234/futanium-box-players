@@ -43,7 +43,6 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.ui.PlayerView
 import androidx.media3.datasource.HttpDataSource
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -1154,7 +1153,6 @@ private fun buildClearKeyResponse(clearKey: String): ByteArray? {
 
         playerView = findViewById(R.id.playerView)
 setupReconnectMessage()
-captureWebView = findViewById(R.id.captureWebView)
 
 bufferingIndicator = playerView.findViewById(
     androidx.media3.ui.R.id.exo_buffering
