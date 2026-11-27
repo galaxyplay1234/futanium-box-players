@@ -1,4 +1,4 @@
-package com.futanium.box
+package com.futaniumbox.players
 
 import android.content.Intent
 import android.graphics.Color
@@ -21,8 +21,6 @@ import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.ui.PlayerView
-import com.google.firebase.database.FirebaseDatabase
-import java.util.UUID
 
 class PlayerActivity : AppCompatActivity() {
 
@@ -32,6 +30,7 @@ class PlayerActivity : AppCompatActivity() {
         const val EXTRA_REFERER = "referer"
         const val EXTRA_USER_AGENT = "ua"
         const val EXTRA_SUBTITLE = "subtitle"
+        const val EXTRA_COOKIE = "cookie"
     }
 
     private lateinit var playerView: PlayerView
@@ -57,27 +56,7 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
     
-        private var m3u8RefId: String? = null
-    private var isM3u8Active = false
-
-    private fun setM3u8Status(active: Boolean) {
-        val db = FirebaseDatabase.getInstance("https://futanium-web-default-rtdb.firebaseio.com/")
-        val m3u8Ref = db.getReference("m3u8")
-
-        if (active) {
-            m3u8RefId = UUID.randomUUID().toString()
-            m3u8Ref.child(m3u8RefId!!).setValue(true)
-            m3u8Ref.child(m3u8RefId!!).onDisconnect().removeValue()
-            isM3u8Active = true
-        } else {
-            m3u8RefId?.let {
-                m3u8Ref.child(it).removeValue()
-                m3u8RefId = null
-                isM3u8Active = false
-            }
-        }
-    }
-
+        
 
     private val controllerHandler = Handler(Looper.getMainLooper())
     private val controllerAutoHide = Runnable { playerView.hideController() }
@@ -89,7 +68,7 @@ class PlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-				setM3u8Status(true)
+				
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.statusBarColor = Color.BLACK
@@ -175,6 +154,7 @@ class PlayerActivity : AppCompatActivity() {
         val referer = intent.getStringExtra(EXTRA_REFERER)
         val ua = intent.getStringExtra(EXTRA_USER_AGENT)
         val subtitleUrl = intent.getStringExtra(EXTRA_SUBTITLE)
+				val cookie = intent.getStringExtra(EXTRA_COOKIE)
 
         if (!isSupported(url)) {
             startActivity(Intent(this, WebViewActivity::class.java).apply {
@@ -184,7 +164,14 @@ class PlayerActivity : AppCompatActivity() {
             return
         }
 
-        initPlayer(url, title, referer, ua, subtitleUrl)
+        initPlayer(
+    url,
+    title,
+    referer,
+    ua,
+    cookie,
+    subtitleUrl
+)
     }
 
     private fun isSupported(u: String): Boolean {
@@ -198,20 +185,45 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun initPlayer(
-        url: String,
-        title: String?,
-        referer: String?,
-        ua: String?,
-        subtitleUrl: String?
-    ) {
+    url: String,
+    title: String?,
+    referer: String?,
+    ua: String?,
+    cookie: String?,
+    subtitleUrl: String?
+) {
         val dsFactory = DefaultHttpDataSource.Factory().apply {
-            setAllowCrossProtocolRedirects(true)
-            ua?.let { setUserAgent(it) }
-            setDefaultRequestProperties(buildMap {
-                if (!referer.isNullOrBlank()) put("Referer", referer)
-                put("Origin", Uri.parse(url).scheme + "://" + (Uri.parse(url).host ?: ""))
-            })
+
+    setAllowCrossProtocolRedirects(true)
+
+    ua?.let {
+        setUserAgent(it)
+    }
+
+    setDefaultRequestProperties(
+        mutableMapOf<String, String>().apply {
+
+            if (!referer.isNullOrBlank())
+                put("Referer", referer)
+
+            if (!cookie.isNullOrBlank())
+                put("Cookie", cookie)
+
+            if (!ua.isNullOrBlank())
+                put("User-Agent", ua)
+
+            try {
+                put(
+                    "Origin",
+                    Uri.parse(referer).scheme +
+                    "://" +
+                    Uri.parse(referer).host
+                )
+            } catch (_: Exception) {
+            }
         }
+    )
+}
 
         val mediaSourceFactory = DefaultMediaSourceFactory(dsFactory)
 
@@ -220,10 +232,7 @@ class PlayerActivity : AppCompatActivity() {
             .build()
             .also { playerView.player = it }
 
-
        val url = intent.getStringExtra("url") ?: return
-
-
 
         val itemBuilder = MediaItem.Builder().setUri(url)
         if (!title.isNullOrBlank()) {
@@ -283,15 +292,7 @@ class PlayerActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-        override fun onPause() {
-        super.onPause()
-        setM3u8Status(false)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (!isM3u8Active) setM3u8Status(true)
-    }
+        
 
     private fun dp(v: Int): Int = (v * resources.displayMetrics.density).toInt()
 }
