@@ -52,7 +52,6 @@ import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import org.json.JSONObject
 import java.util.Locale
-import java.util.UUID
 import java.util.concurrent.TimeUnit
 import androidx.annotation.OptIn
 import androidx.media3.common.util.UnstableApi
@@ -141,8 +140,7 @@ private var reconnectRunnable: Runnable? = null
     }
 }
 
-    private var m3u8RefId: String? = null
-    private var isM3u8Active = false
+    
 
     private val controllerHandler = Handler(Looper.getMainLooper())
 
@@ -528,31 +526,7 @@ private fun buildClearKeyResponse(clearKey: String): ByteArray? {
     // FIREBASE
     // =========================================================
 
-    private fun setM3u8Status(active: Boolean) {
-        val db = FirebaseDatabase.getInstance(
-            "https://futanium-web-default-rtdb.firebaseio.com/"
-        )
-
-        val m3u8Ref = db.getReference("m3u8")
-
-        if (active) {
-            if (isM3u8Active) return
-
-            m3u8RefId = UUID.randomUUID().toString()
-
-            m3u8Ref.child(m3u8RefId!!).setValue(true)
-            m3u8Ref.child(m3u8RefId!!).onDisconnect().removeValue()
-
-            isM3u8Active = true
-        } else {
-            m3u8RefId?.let {
-                m3u8Ref.child(it).removeValue()
-                m3u8RefId = null
-            }
-
-            isM3u8Active = false
-        }
-    }
+    
 
     // =========================================================
     // CONTROLES
@@ -1125,7 +1099,7 @@ private fun buildClearKeyResponse(clearKey: String): ByteArray? {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setM3u8Status(true)
+        
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -2245,8 +2219,7 @@ private fun closePlayerCompletely() {
         captureWebView.stopLoading()
     }
 
-    // Atualiza o contador no Firebase.
-    setM3u8Status(false)
+    
 
     window.clearFlags(
         WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
@@ -2294,15 +2267,12 @@ private fun closePlayerCompletely() {
 
 override fun onPause() {
     super.onPause()
-    setM3u8Status(false)
+    
 }
 
 override fun onResume() {
     super.onResume()
 
-    if (!isM3u8Active) {
-        setM3u8Status(true)
-    }
 }
 
 private fun dp(v: Int): Int {
